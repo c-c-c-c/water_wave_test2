@@ -1,11 +1,15 @@
 
 
 let scene = new THREE.Scene();
-let box;
+let plane;
 let controls;
 let renderer;
 let camera;
 let model = [];
+let SEGX = 11;
+let SEGY = 11;
+let startTime = new Date();
+
 //let model = {};
 
 function renderFlag () {
@@ -20,8 +24,6 @@ function renderFlag () {
 	 //light = new THREE.PointLight(0xffffff,2);
 	 //light.position.set(100,0,300);
 	 //scene.add(light);
-
-
 
   light = new THREE.DirectionalLight(0xffffff, 1);
   light.position.set(100, 0, 300);
@@ -48,10 +50,10 @@ function renderFlag () {
   scene.add(lightHelper);
 
   //controls
-  controls = new THREE.OrbitControls(camera);
+  //controls = new THREE.OrbitControls(camera);
   //cameraの自動回転
-  controls.autoRotate = true;
-  controls.autoRotateSpeed = 1.5;
+//  controls.autoRotate = true;
+  //controls.autoRotateSpeed = 1.5;
 
   // renderer
   renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -66,25 +68,43 @@ function renderFlag () {
 	//テクスチャ読み込み
 	let loader = new THREE.TextureLoader();
 	//let texture=loader.load('./public/img/dice.jpg');
-	let texture=loader.load('./public/img/yoko.jpg');
+	loader.load('./public/img/tora_flag.jpg', (texture) => {
+		let geometry = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
+		let material = new THREE.MeshBasicMaterial({map:texture, side: THREE.DoubleSide} );
+		//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+		//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+		//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+		plane = new THREE.Mesh(geometry, material);
+		scene.add(plane);
+  	render();
+	});
+
 	//console.log(texture);
+	//texture.needsUpdate = true;
 
 //	var geometry = new THREE.PlaneGeometry(1300, 1228, SEGX, SEGY);
-	let geometry = new THREE.PlaneGeometry(973, 703, 1, 1);
-	let material = new THREE.MeshBasicMaterial({map:texture, side: THREE.DoubleSide} );
-	//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-	//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-	//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
-	let plane = new THREE.Mesh(geometry, material);
-	scene.add(plane);
-
-  render();
 }
 
 function render () {
 
+	plane.geometry.verticesNeedUpdate=true;//これを忘れずに書く
+	let time = (new Date() - startTime)/1000;
+
+	for (let i=0;i<SEGX+1;i++) {
+		for (let j=0;j<SEGY+1;j++) {
+			//(i,j)のvertexを得る
+			let index = j * (SEGX + 1) + i % (SEGX + 1);
+			let vertex = plane.geometry.vertices[index];
+			//時間経過と頂点の位置によって波を作る
+			let amp=100;//振幅
+			vertex.z = amp * Math.sin( -i/2 + time*10 );
+
+			console.log(vertex.z);
+		}
+	}
+
   requestAnimationFrame(render);
-  controls.update();
+	//controls.update();
   renderer.render(scene, camera);
 }
 
