@@ -63,12 +63,12 @@ function renderFlag () {
   document.getElementById('stage').appendChild(renderer.domElement);
 
 
-	//var texture = new THREE.TextureLoader().load("./public/img/tora_flag.jpg");
+	//var texture = new THREE.TextureLoader().load("./public/img/italy.jpg");
 	//var texture = new THREE.TextureLoader().load("./public/img/dice.jpg");
 	//テクスチャ読み込み
 	let loader = new THREE.TextureLoader();
 	//let texture=loader.load('./public/img/dice.jpg');
-	loader.load('./public/img/tora_flag.jpg', (texture) => {
+	loader.load('./public/img/italy.jpg', (texture) => {
 		let geometry = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
 		let material = new THREE.MeshBasicMaterial({map:texture, side: THREE.DoubleSide} );
 		//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
