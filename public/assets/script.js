@@ -44,11 +44,11 @@ function renderFlag() {
 
 	// helper 現在は非表示
 	var gridHelper = new THREE.GridHelper(200, 50);
-	scene.add(gridHelper);
+	//  scene.add(gridHelper);
 	var axisHelper = new THREE.AxisHelper(1000);
-	scene.add(axisHelper);
+	//  scene.add(axisHelper);
 	var lightHelper = new THREE.DirectionalLightHelper(light, 20);
-	scene.add(lightHelper);
+	//  scene.add(lightHelper);
 
 	//controls
 	//controls = new THREE.OrbitControls(camera);
