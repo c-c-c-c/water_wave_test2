@@ -31,17 +31,17 @@
           },
           methods: {
             countUp: function() {
-                    this.count++; 
-                    changeRotateSpeed (); 
+                    this.count++;
+                    changeRotateSpeed ();
               }
           }
         });
-        
+
         var vm_stop = new Vue({
           el: '#mystop',
           methods: {
             hsStop: function() {
-                    Speed_0(); 
+                    Speed_0();
             }
           }
         });
@@ -57,7 +57,7 @@
 	      var radian = 0;
 	      var geometry;
 	     	var material;
-	  
+
         function renderHandSpinner () {
         'use strict';
 	  	  let light;
@@ -96,7 +96,7 @@
         //scene.add(axisHelper);
 	      lightHelper = new THREE.DirectionalLightHelper(light , 20)
   	    //scene.add(lightHelper);
- 
+
         //controls
 	      controls = new THREE.OrbitControls(camera);
         controls.autoRotate = true;
@@ -152,7 +152,7 @@
         //model.rotation.x = 1;
 	      render();
       });　
-    
+
     }
 
 	  function addSpinner () {
@@ -161,7 +161,7 @@
 			let randX = 800 * Math.random();
 			let randY = 800 * Math.random();
 			let randZ = 800 * Math.random();
-			
+
       let size = Math.random();
 			model.scale.set(size, size, size);　　　
       model.position.set(randX, randY, randZ);
@@ -196,13 +196,13 @@
 	    console.log(vm.count);
  	 //   requestAnimationFrame(render);
 	  }
-            
+
     function Speed_0 () {
 	    vm.count = 0;
 	    rotate_speed = 0;
 	   	addSpinner();
 	  }
-    
+
     renderHandSpinner();
     </script>
 
@@ -216,7 +216,7 @@
         <div v-text="count"></div>
         <button v-on="click:countUp">Up</button>
 
-    </div> 
+    </div>
 
   <script src="./assets/vue.js"></script>
   <script>
@@ -231,7 +231,7 @@
                     this.count++;
                 }
             }
-        });  
+        });
   </script>
 
 

@@ -2,22 +2,50 @@
 
 let scene = new THREE.Scene();
 let plane;
+let plane_god;
 let controls;
+let geometry;
+let geometry_god;
 let renderer;
 let camera;
 let model = [];
 let SEGX = 11;
 let SEGY = 11;
 let startTime = new Date();
+let rotate_speed = 0;
 
 //let model = {};
+
+
+let vm = new Vue({
+  el: '#mycounter',
+  data: {
+    count: 0
+  },
+  methods: {
+    countUp: function() {
+            this.count++;
+            	changeRotateSpeed ();
+      }
+  }
+});
+
+let vm_stop = new Vue({
+  el: '#mystop',
+  methods: {
+    hsStop: function() {
+            Speed_0();
+    }
+  }
+});
+
 
 function renderFlag () {
   'use strict';
   let light;
   let ambient;
-  let width = 1200;
-  let height = 1200;
+  let width = 1000;
+  let height = 750;
 	let modelPath ;
 
    //light
@@ -56,7 +84,7 @@ function renderFlag () {
   //controls.autoRotateSpeed = 1.5;
 
   // renderer
-  renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true  });
   renderer.setSize(width, height);
   renderer.setClearColor(0xffffff);
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -68,16 +96,31 @@ function renderFlag () {
 	//テクスチャ読み込み
 	let loader = new THREE.TextureLoader();
 	//let texture=loader.load('./public/img/dice.jpg');
-	loader.load('./public/img/italy.jpg', (texture) => {
-		let geometry = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
-		let material = new THREE.MeshBasicMaterial({map:texture, side: THREE.DoubleSide} );
+	loader.load('./public/img/bg_flag.png', (texture) => {
+		geometry = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
+		let material = new THREE.MeshBasicMaterial({map:texture, transparent:true} );
 		//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
 		//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
 		//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
 		plane = new THREE.Mesh(geometry, material);
+		plane.scale.set(1.2, 1.2, 1.2);
 		scene.add(plane);
-  	render();
+
+		let loader2 = new THREE.TextureLoader();
+		loader.load('./public/img/god.png', (texture) => {
+			geometry_god = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
+			let material_god = new THREE.MeshBasicMaterial({map:texture, transparent:true} );
+			//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+			//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+			//var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
+			plane_god = new THREE.Mesh(geometry_god, material_god);
+			plane_god.scale.set(0.7, 0.7, 0.7);
+
+			scene.add(plane_god);
+			render();
+		});
 	});
+
 
 	//console.log(texture);
 	//texture.needsUpdate = true;
@@ -88,6 +131,7 @@ function renderFlag () {
 function render () {
 
 	plane.geometry.verticesNeedUpdate=true;//これを忘れずに書く
+	plane_god.geometry.verticesNeedUpdate=true;//これを忘れずに書く
 	let time = (new Date() - startTime)/1000;
 
 	for (let i=0;i<SEGX+1;i++) {
@@ -95,17 +139,33 @@ function render () {
 			//(i,j)のvertexを得る
 			let index = j * (SEGX + 1) + i % (SEGX + 1);
 			let vertex = plane.geometry.vertices[index];
+			let vertex_god = plane_god.geometry.vertices[index];
 			//時間経過と頂点の位置によって波を作る
 			let amp=100;//振幅
 			vertex.z = amp * Math.sin( -i/2 + time*10 );
+			vertex_god.z = amp * Math.sin( -i/2 + time*10) + 200;
 
-			console.log(vertex.z);
 		}
 	}
+
+	plane_god.rotation.z += rotate_speed;
 
   requestAnimationFrame(render);
 	//controls.update();
   renderer.render(scene, camera);
 }
 
+
 renderFlag();
+
+function changeRotateSpeed () {
+  //controls.autoRotateSpeed = vm.count*10;
+ 	rotate_speed += vm.count*0.01;
+
+}
+
+function Speed_0 () {
+  vm.count = 0;
+  rotate_speed = 0;
+ 	//addSpinner();
+}
