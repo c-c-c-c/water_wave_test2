@@ -156,7 +156,7 @@ renderFlag();
 
 function changeRotateSpeed() {
 		//controls.autoRotateSpeed = vm.count*10;
-		rotate_speed += vm.count * 0.01;
+		rotate_speed -= vm.count * 0.01;
 }
 
 function Speed_0() {
