@@ -95,7 +95,7 @@ function renderFlag() {
 		//テクスチャ読み込み
 		var loader = new THREE.TextureLoader();
 		//let texture=loader.load('./public/img/dice.jpg');
-		loader.load('./public/img/bg_flag.png', function (texture) {
+		loader.load('./public/img/flag_bg.png', function (texture) {
 				geometry = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
 				var material = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
 				//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
@@ -106,7 +106,7 @@ function renderFlag() {
 				scene.add(plane);
 
 				var loader2 = new THREE.TextureLoader();
-				loader.load('./public/img/god.png', function (texture) {
+				loader.load('./public/img/flag_moyo.png', function (texture) {
 						geometry_god = new THREE.PlaneGeometry(973, 703, SEGX, SEGY);
 						var material_god = new THREE.MeshBasicMaterial({ map: texture, transparent: true });
 						//let material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
