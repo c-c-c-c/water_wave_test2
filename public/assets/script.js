@@ -106,7 +106,6 @@ function renderFlag() {
     //var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
     //var material = new THREE.MeshBasicMaterial( {color: 0xffff00, side: THREE.DoubleSide} );
     plane = new THREE.Mesh(geometry, material);
-    plane.scale.set(1.2, 1.2, 1.2);
     var helper = new THREE.VertexNormalsHelper(plane, 2, 0xee0000, 1);
     scene.add(helper);
     // let helper_wier = new THREE.WireframeGeometry( plane, 20, 0xee0000, 1 );
