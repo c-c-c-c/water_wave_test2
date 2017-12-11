@@ -9,11 +9,13 @@ let geometry_god;
 let renderer;
 let camera;
 let model = [];
-let SEGX = 30;
-let SEGY = 30;
+let SEGX = 6;
+let SEGY = 6;
 let startTime = new Date();
 let rotate_speed = 0;
 
+let count = 1;
+let target_v = 1;
 //let model = {};
 
 
@@ -116,7 +118,6 @@ function renderFlag () {
 		line.material.opacity = 1;
 		line.material.transparent = true;
 		scene.add( new THREE.BoxHelper( line ) );
-		//line.material.transparent = true;
 		scene.add( line );
 
 
@@ -154,18 +155,31 @@ function render () {
 	let time = (new Date() - startTime)/1000;
 
 
- 	for (let i=0;i<SEGX+1;i++) {
- 		for (let j=0;j<SEGY+1;j++) {
- 			//(i,j)のvertexを得る
- 			let index = j * (SEGX + 1) + i % (SEGX + 1);
- 			let vertex = plane.geometry.vertices[index];
-// //			let vertex_god = plane_god.geometry.vertices[index];
- 			//時間経過と頂点の位置によって波を作る
- 			let amp=100;//振幅
- 			//vertex.z = amp * Math.sin( -i/2 + time*10 );
- 			// vertex_god.z = amp * Math.sin( -i/2 + time*10) + 200;
- 		}
- 	}
+	//任意のバーテックスを変える
+　count++;
+
+
+	if (480 % count == 0 ){
+		target_v++;
+		console.log(target_v);
+		let vertex =	plane.geometry.vertices[target_v];
+		vertex.z = 50;
+		let before_vertex =	plane.geometry.vertices[target_v - 1];
+		before_vertex.z = 0;
+	}
+
+//  	for (let i=0;i<SEGX+1;i++) {
+//  		for (let j=0;j<SEGY+1;j++) {
+//  			//(i,j)のvertexを得る
+//  			let index = j * (SEGX + 1) + i % (SEGX + 1);
+//  			let vertex = plane.geometry.vertices[index];
+// // //			let vertex_god = plane_god.geometry.vertices[index];
+//  			//時間経過と頂点の位置によって波を作る
+//  			let amp=100;//振幅
+//  			//vertex.z = amp * Math.sin( -i/2 + time*10 );
+//  			// vertex_god.z = amp * Math.sin( -i/2 + time*10) + 200;
+//  		}
+//  	}
 
 	plane_god.rotation.z += rotate_speed;
   requestAnimationFrame(render);
